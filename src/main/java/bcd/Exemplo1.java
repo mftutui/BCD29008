@@ -80,9 +80,30 @@ public class Exemplo1 {
         }
     }
 
+    public static void buscar() throws ClassNotFoundException, SQLException {
+        Class.forName("org.sqlite.JDBC");
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:"+dbPath);
+        Statement stmt = connection.createStatement();
+
+        Scanner teclado = new Scanner(System.in);
+
+        System.out.println("Procure por um email: ");
+        String email = teclado.next();
+
+        String query = "SELECT * FROM Aluno WHERE email = '"+ email + "'";
+
+        ResultSet linhas = stmt.executeQuery(query);
+
+        printTabela(linhas);
+
+        linhas.close();
+        stmt.close();
+        connection.close();
+    }
+
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
 
-        listarRegistros();
+        buscar();
 
     }
 
